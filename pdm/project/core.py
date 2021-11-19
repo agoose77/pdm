@@ -36,6 +36,7 @@ from pdm.utils import (
     find_python_in_path,
     get_in_project_venv_python,
     is_venv_python,
+    get_env_prefix,
 )
 
 if TYPE_CHECKING:
@@ -178,7 +179,7 @@ class Project:
         else:
             suffix = ""
             scripts = "bin"
-        virtual_env = os.getenv("VIRTUAL_ENV")
+        virtual_env = get_env_prefix()
         if config["use_venv"] and virtual_env:
             return PythonInfo.from_path(
                 os.path.join(virtual_env, scripts, f"python{suffix}")

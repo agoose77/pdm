@@ -409,10 +409,12 @@ class Candidate:
         elif self.req.editable:
             if self.environment.packages_path:
                 src_dir = self.environment.packages_path / "src"
-            elif os.getenv("VIRTUAL_ENV"):
-                src_dir = Path(os.environ["VIRTUAL_ENV"]) / "src"
             else:
-                src_dir = Path("src")
+                virtual_env_prefix = get_env_prefix()
+                if virtual_env_prefix:
+                    src_dir = virtual_env_prefix / "src"
+                else:
+                    src_dir = Path("src")
             if not src_dir.is_dir():
                 src_dir.mkdir()
             ireq.ensure_has_source_dir(str(src_dir))
