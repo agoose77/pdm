@@ -25,11 +25,11 @@ from pdm.utils import (
     convert_hashes,
     create_tracked_tempdir,
     expand_env_vars_in_auth,
+    get_env_prefix,
     get_rev_from_url,
     path_replace,
     populate_link,
     url_without_fragments,
-    get_env_prefix,
 )
 
 if sys.version_info >= (3, 8):
