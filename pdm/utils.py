@@ -24,6 +24,7 @@ from typing import (
     Generic,
     Iterable,
     Iterator,
+    Optional,
     TextIO,
     TypeVar,
     no_type_check,
@@ -440,8 +441,10 @@ def is_venv_python(interpreter: str | Path) -> bool:
     interpreter = Path(interpreter)
     if interpreter.parent.parent.joinpath("pyvenv.cfg").exists():
         return True
-    virtual_env = os.getenv("VIRTUAL_ENV")
-    return bool(virtual_env and is_path_relative_to(interpreter, virtual_env))
+    virtual_env_prefix = get_env_prefix()
+    return bool(
+        virtual_env_prefix and is_path_relative_to(interpreter, virtual_env_prefix)
+    )
 
 
 def find_python_in_path(path: str | Path) -> Path | None:
@@ -513,3 +516,15 @@ def pdm_scheme(base: str) -> dict[str, str]:
             "headers": "{base}/include",
         }
     return sysconfig.get_paths("pdm", vars={"base": base}, expand=True)
+
+
+def get_env_prefix() -> Optional[Path]:
+    """Return the prefix of the current virtual environment"""
+    # Conda sets CONDA_PREFIX (https://github.com/conda/conda/issues/2764)
+    if "VIRTUAL_ENV" in os.environ:
+        return Path(os.environ["VIRTUAL_ENV"])
+
+    if "CONDA_PREFIX" in os.environ:
+        if os.environ.get("CONDA_DEFAULT_ENV") != "base":
+            return Path(os.environ["CONDA_PREFIX"])
+    return None

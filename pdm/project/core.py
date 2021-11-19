@@ -34,6 +34,7 @@ from pdm.utils import (
     expand_env_vars_in_auth,
     find_project_root,
     find_python_in_path,
+    get_env_prefix,
     get_in_project_venv_python,
     is_venv_python,
 )
@@ -178,7 +179,7 @@ class Project:
         else:
             suffix = ""
             scripts = "bin"
-        virtual_env = os.getenv("VIRTUAL_ENV")
+        virtual_env = get_env_prefix()
         if config["use_venv"] and virtual_env:
             return PythonInfo.from_path(
                 os.path.join(virtual_env, scripts, f"python{suffix}")
