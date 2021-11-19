@@ -527,3 +527,4 @@ def get_env_prefix() -> Optional[Path]:
     if "CONDA_PREFIX" in os.environ:
         if os.environ.get("CONDA_DEFAULT_ENV") != "base":
             return Path(os.environ["CONDA_PREFIX"])
+    return None
