@@ -34,9 +34,9 @@ from pdm.utils import (
     expand_env_vars_in_auth,
     find_project_root,
     find_python_in_path,
+    get_env_prefix,
     get_in_project_venv_python,
     is_venv_python,
-    get_env_prefix,
 )
 
 if TYPE_CHECKING:
