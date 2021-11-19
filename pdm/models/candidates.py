@@ -29,6 +29,7 @@ from pdm.utils import (
     path_replace,
     populate_link,
     url_without_fragments,
+    get_env_prefix,
 )
 
 if sys.version_info >= (3, 8):

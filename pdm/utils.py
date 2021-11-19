@@ -442,7 +442,9 @@ def is_venv_python(interpreter: str | Path) -> bool:
     if interpreter.parent.parent.joinpath("pyvenv.cfg").exists():
         return True
     virtual_env_prefix = get_env_prefix()
-    return bool(virtual_env_prefix and is_path_relative_to(interpreter, virtual_env_prefix))
+    return bool(
+        virtual_env_prefix and is_path_relative_to(interpreter, virtual_env_prefix)
+    )
 
 
 def find_python_in_path(path: str | Path) -> Path | None:
